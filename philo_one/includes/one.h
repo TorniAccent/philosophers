@@ -34,7 +34,7 @@ typedef struct s_init
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*guard;
 	pthread_t			*philo;
-	pthread_t			*add;
+	pthread_t			*twin;
 }				t_init;
 
 void			*ft_core(void *arg);
