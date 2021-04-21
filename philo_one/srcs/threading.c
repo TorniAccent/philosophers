@@ -34,9 +34,9 @@ static int	create_philo(t_pool *pool, int b, t_init *init)
 		return (-1);
 	if (pthread_detach(init->philo[b]) != 0)
 		return (-1);
-	if (pthread_create(&init->add[b], NULL, death, &pool[b]) != 0)
+	if (pthread_create(&init->twin[b], NULL, death, &pool[b]) != 0)
 		return (-1);
-	if (pthread_detach(init->add[b]) != 0)
+	if (pthread_detach(init->twin[b]) != 0)
 		return (-1);
 	return (0);
 }
