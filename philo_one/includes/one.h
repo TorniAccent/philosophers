@@ -10,7 +10,7 @@
 
 int				g_the_end;
 
-typedef struct	s_ph
+typedef struct s_ph
 {
 	int					id;
 	int					start_die;
@@ -24,7 +24,7 @@ typedef struct	s_ph
 	pthread_mutex_t		guard;
 }				t_ph;
 
-typedef struct	s_shrmem
+typedef struct s_shrmem
 {
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*guard;
@@ -33,7 +33,7 @@ typedef struct	s_shrmem
 	t_ph				*philo;
 }				t_shrmem;
 
-typedef struct	s_init
+typedef struct s_init
 {
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*guard;

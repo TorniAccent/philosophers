@@ -72,7 +72,8 @@ int	ft_threading(t_init *init, int argc, int *val)
 
 	pthread_mutex_lock(&init->guard[0]);
 	g_the_end = 0;
-	if (!(new = ft_init_pool(val, init)))
+	new = ft_init_pool(val, init);
+	if (!new)
 		return (-1);
 	if (even_odd_launch(val, new, init, argc) == -1)
 		return (-1);

@@ -14,7 +14,8 @@ int	ft_init_philo(t_shrmem *stat, int *val, int argc, int b)
 
 	gettimeofday(&time, NULL);
 	stat->time = (time.tv_usec / 1000) + (time.tv_sec * 1000);
-	if (!(stat->philo = malloc(sizeof(t_ph))))
+	stat->philo = malloc(sizeof(t_ph));
+	if (!stat->philo)
 		return (-1);
 	stat->philo->id = b + 1;
 	stat->philo->start_die = val[1];
@@ -44,7 +45,8 @@ t_shrmem	*ft_init_pool(int *v, t_init *init)
 
 	m = ft_time();
 	i = 0;
-	if (!(new = malloc(sizeof(t_shrmem) * (v[0]))))
+	new = malloc(sizeof(t_shrmem) * (v[0]));
+	if (!new)
 		return (NULL);
 	while (i != v[0])
 	{
@@ -61,17 +63,21 @@ t_init	*ft_init_init(int *val, t_init *init)
 {
 	int		b;
 
-	if (!(init->philo = malloc(sizeof(pthread_t) * val[0])))
+	init->philo = malloc(sizeof(pthread_t) * val[0]);
+	if (!init->philo)
 		return (NULL);
-	if (!(init->add = malloc(sizeof(pthread_t) * val[0])))
+	init->add = malloc(sizeof(pthread_t) * val[0]);
+	if (!init->add)
 		return (NULL);
-	if (!(init->guard = malloc(sizeof(pthread_mutex_t) * 10)))
+	init->guard = malloc(sizeof(pthread_mutex_t) * 10);
+	if (!init->guard)
 		return (NULL);
 	b = -1;
 	while (++b != 10)
 		if (pthread_mutex_init(&init->guard[b], NULL) != 0)
 			return (NULL);
-	if (!(init->forks = malloc(sizeof(pthread_mutex_t) * val[0])))
+	init->forks = malloc(sizeof(pthread_mutex_t) * val[0]);
+	if (!init->forks)
 		return (NULL);
 	b = -1;
 	while (++b != val[0])
