@@ -7,19 +7,20 @@ void	ft_print_error(char *str)
 	write(2, "\n", 1);
 }
 
-void	ft_print_time(t_pool *stat, char *str)
+// pre up
+void	ft_print_time(t_pool *pool, char *str)
 {
-	long			ms1;
+	long			ms;
 
-	pthread_mutex_lock(&stat->guard[3]);
-	ms1 = ft_time();
-	printf("%ldms %d %s\n", ms1 - stat->time, stat->philo->id, str);
+	pthread_mutex_lock(&pool->guard[3]);
+	ms = ft_time();
+	printf("%ldms %d %s\n", ms - pool->time, pool->philo->id, str);
 	if (ft_strlen(str) == 4)
 	{
-		pthread_mutex_unlock(&stat->guard[0]);
+		pthread_mutex_unlock(&pool->guard[0]);
 		return ;
 	}
-	pthread_mutex_unlock(&stat->guard[3]);
+	pthread_mutex_unlock(&pool->guard[3]);
 }
 
 // up

@@ -23,18 +23,18 @@ typedef struct s_ph
 
 typedef struct s_pool
 {
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		*guard;
-	long				time;
-	t_ph				*philo;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	*guard;
+	long			time;
+	t_ph			*philo;
 }				t_pool;
 
 typedef struct s_init
 {
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		*guard;
-	pthread_t			*philo;
-	pthread_t			*twin;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	*guard;
+	pthread_t		*philo;
+	pthread_t		*twin;
 }				t_init;
 
 void			*ft_core(void *arg);
