@@ -38,7 +38,7 @@ int	ft_init_philo(t_pool *pool, int *val, int argc, int b)
 
 t_pool	*ft_init_pool(int *v, t_init *init)
 {
-	t_pool			*new;
+	t_pool		*new;
 	int				i;
 	long			m;
 
