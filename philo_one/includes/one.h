@@ -41,20 +41,21 @@ typedef struct	s_init
 	pthread_t			*add;
 }				t_init;
 
-void			*philo_one(void *arg);
+void			*ft_core(void *arg);
 
-int				threading(t_init *init, int argc, int *val);
+int				ft_threading(t_init *init, int argc, int *val);
 
-void			ft_perror(char *str);
+long			ft_time(void);
+int				ft_init_philo(t_shrmem *stat, int *val, int argc, int b);
+t_shrmem		*ft_init_pool(int *val, t_init *init);
+t_init			*ft_init_init(int *val, t_init *init);
+int				ft_destruct(t_init *init, int *val);
+
+void			ft_print_error(char *str);
+void			ft_print_time(t_shrmem *stat, long i, char *str);
 int				ft_strlen(char *str);
 int				ft_atoi(char *str);
-int				init_philo(t_shrmem *stat, int *val, int argc, int b);
-t_shrmem		*init_env(int *val, t_init *init);
-void			print_time(t_shrmem *stat, long i, char *str);
-t_init			*main_init(int *val, t_init *init);
-int				deinit(t_init *init, int *val);
-long			chrono(void);
 
-int				*check_args(int argc, char **argv);
+int				*ft_parse_args(int argc, char **argv);
 
 #endif

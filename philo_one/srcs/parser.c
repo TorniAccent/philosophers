@@ -1,6 +1,6 @@
 #include "one.h"
 
-static int	isdigit_arg(char **argv)
+static int	is_number(char **argv)
 {
 	int		i;
 	int		a;
@@ -20,20 +20,20 @@ static int	isdigit_arg(char **argv)
 	return (1);
 }
 
-int	*check_args(int argc, char **argv)
+int	*ft_parse_args(int argc, char **argv)
 {
 	int		*val;
 	int		i;
 
 	i = -1;
-	if (!isdigit_arg(argv))
+	if (!is_number(argv))
 	{
-		ft_perror("Error: invalid value");
+		ft_print_error("Error: invalid value");
 		return (NULL);
 	}
 	if (!(val = malloc(sizeof(int) * (argc - 1))))
 	{
-		ft_perror("Error: malloc error");
+		ft_print_error("Error: malloc error");
 		return (NULL);
 	}
 	while (++i != (argc - 1))
@@ -41,7 +41,7 @@ int	*check_args(int argc, char **argv)
 		val[i] = ft_atoi(argv[i + 1]);
 		if (val[i] <= 0)
 		{
-			ft_perror("Error: invalid value");
+			ft_print_error("Error: invalid value");
 			free(val);
 			return (NULL);
 		}

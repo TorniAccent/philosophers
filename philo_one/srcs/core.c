@@ -1,6 +1,6 @@
 #include "one.h"
 
-static void	ft_usleep(long i)
+static void	ft_sleep(long i)
 {
 	struct timeval	time;
 	struct timeval	time1;
@@ -19,11 +19,11 @@ static void	ft_usleep(long i)
 static void	take_forks(t_shrmem *stat)
 {
 	pthread_mutex_lock(&stat->forks[stat->philo->left]);
-	print_time(stat, 0, "has taken a fork");
+	ft_print_time(stat, 0, "has taken a fork");
 	if (g_the_end == 1)
 		return ;
 	pthread_mutex_lock(&stat->forks[stat->philo->right]);
-	print_time(stat, 0, "has taken a fork");
+	ft_print_time(stat, 0, "has taken a fork");
 	if (g_the_end == 1)
 		return ;
 }
@@ -31,10 +31,10 @@ static void	take_forks(t_shrmem *stat)
 static void	eating(t_shrmem *stat)
 {
 	pthread_mutex_lock(&stat->philo->guard);
-	print_time(stat, 0, "is eating");
+	ft_print_time(stat, 0, "is eating");
 	if (g_the_end == 1)
 		return ;
-	ft_usleep(stat->philo->eat * 1000);
+	ft_sleep(stat->philo->eat * 1000);
 	stat->philo->cicles--;
 	pthread_mutex_unlock(&stat->philo->guard);
 	pthread_mutex_unlock(&stat->forks[stat->philo->right]);
@@ -43,31 +43,31 @@ static void	eating(t_shrmem *stat)
 
 static void	sleeping(t_shrmem *stat)
 {
-	print_time(stat, 0, "is sleeping");
+	ft_print_time(stat, 0, "is sleeping");
 	if (g_the_end == 1)
 		return ;
-	ft_usleep(stat->philo->sleep * 1000);
+	ft_sleep(stat->philo->sleep * 1000);
 }
 
-void	*philo_one(void *arg)
+void	*ft_core(void *arg)
 {
 	t_shrmem		*stat;
 
 	stat = arg;
-	stat->philo->start = chrono();
+	stat->philo->start = ft_time();
 	while (stat->philo->cicles != 0)
 	{
 		take_forks(stat);
 		if (g_the_end == 1)
 			return (NULL);
-		stat->philo->start = chrono();
+		stat->philo->start = ft_time();
 		eating(stat);
 		if (g_the_end == 1)
 			return (NULL);
 		sleeping(stat);
 		if (g_the_end == 1)
 			return (NULL);
-		print_time(stat, 0, "is thinking");
+		ft_print_time(stat, 0, "is thinking");
 		if (g_the_end == 1)
 			return (NULL);
 	}

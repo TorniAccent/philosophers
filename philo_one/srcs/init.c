@@ -1,6 +1,6 @@
 #include "one.h"
 
-long	chrono(void)
+long	ft_time(void)
 {
 	struct timeval		time;
 
@@ -8,7 +8,7 @@ long	chrono(void)
 	return ((time.tv_usec / (long)1000) + (time.tv_sec * (long)1000));
 }
 
-int			init_philo(t_shrmem *stat, int *val, int argc, int b)
+int	ft_init_philo(t_shrmem *stat, int *val, int argc, int b)
 {
 	struct timeval	time;
 
@@ -36,13 +36,13 @@ int			init_philo(t_shrmem *stat, int *val, int argc, int b)
 	return (0);
 }
 
-t_shrmem	*init_env(int *v, t_init *init)
+t_shrmem	*ft_init_pool(int *v, t_init *init)
 {
 	t_shrmem		*new;
 	int				i;
 	long			m;
 
-	m = chrono();
+	m = ft_time();
 	i = 0;
 	if (!(new = malloc(sizeof(t_shrmem) * (v[0]))))
 		return (NULL);
@@ -57,7 +57,7 @@ t_shrmem	*init_env(int *v, t_init *init)
 	return (new);
 }
 
-t_init		*main_init(int *val, t_init *init)
+t_init	*ft_init_init(int *val, t_init *init)
 {
 	int		b;
 
@@ -80,7 +80,7 @@ t_init		*main_init(int *val, t_init *init)
 	return (init);
 }
 
-int			deinit(t_init *init, int *val)
+int	ft_destruct(t_init *init, int *val)
 {
 	int		b;
 

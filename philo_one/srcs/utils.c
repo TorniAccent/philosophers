@@ -1,19 +1,19 @@
 #include "one.h"
 
-void	ft_perror(char *str)
+void	ft_print_error(char *str)
 {
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
 }
 
-void	print_time(t_shrmem *stat, long i, char *str)
+void	ft_print_time(t_shrmem *stat, long i, char *str)
 {
 	long			ms1;
 
 	pthread_mutex_lock(&stat->guard[3]);
 	if (g_the_end == 1)
 		return ;
-	ms1 = chrono();
+	ms1 = ft_time();
 	printf("%ldms %d %s\n", ms1 - stat->time, stat->philo->id, str);
 	if (i != 0)
 	{
