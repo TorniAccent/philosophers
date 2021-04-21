@@ -1,22 +1,10 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: swquinc <swquinc@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/03/15 15:00:53 by swquinc           #+#    #+#              #
-#    Updated: 2021/03/29 19:35:03 by swquinc          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME	= philo_one
 
-SRCS	= srcs/philo_one.c srcs/actions.c srcs/init.c srcs/utils.c srcs/utils2.c
+SRCS	=	srcs/core.c srcs/threading.c srcs/main.c srcs/init.c srcs/utils.c srcs/parser.c
 
-OBJS	= philo_one.o actions.o init.o utils.o utils2.o
+OBJS	=	core.o threading.o main.o init.o utils.o parser.o
 
-OBJS_D	= objs/philo_one.o objs/actions.o objs/init.o objs/utils.o objs/utils2.o
+OBJS_D	=	objs/core.o objs/threading.o objs/main.o objs/init.o objs/utils.o objs/parser.o
 
 CC		= gcc -Wall -Wextra -Werror -pthread
 
@@ -30,7 +18,7 @@ objs:
 	mkdir objs
 
 objs/%.o: srcs/%.c
-		$(CC) $(INCLUDES) -c $< -o $@
+	$(CC) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(OBJS_D)
 	$(CC) $(OBJS_D) $(INCLUDES) -o $(NAME)

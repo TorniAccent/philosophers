@@ -1,16 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: swquinc <swquinc@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/17 20:59:39 by swquinc           #+#    #+#             */
-/*   Updated: 2021/04/06 20:28:49 by swquinc          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "one.h"
+
+long	chrono(void)
+{
+	struct timeval		time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_usec / (long)1000) + (time.tv_sec * (long)1000));
+}
 
 int			init_philo(t_shrmem *stat, int *val, int argc, int b)
 {

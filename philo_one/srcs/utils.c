@@ -1,18 +1,31 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: swquinc <swquinc@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/15 15:08:45 by swquinc           #+#    #+#             */
-/*   Updated: 2021/03/24 18:52:19 by swquinc          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "one.h"
 
-int		ft_strlen(char *str)
+void	ft_perror(char *str)
+{
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+}
+
+void	print_time(t_shrmem *stat, long i, char *str)
+{
+	long			ms1;
+
+	pthread_mutex_lock(&stat->guard[3]);
+	if (g_the_end == 1)
+		return ;
+	ms1 = chrono();
+	printf("%ldms %d %s\n", ms1 - stat->time, stat->philo->id, str);
+	if (i != 0)
+	{
+		g_the_end = 1;
+		pthread_mutex_unlock(&stat->guard[0]);
+		return ;
+	}
+
+	pthread_mutex_unlock(&stat->guard[3]);
+}
+
+int	ft_strlen(char *str)
 {
 	int		i;
 
@@ -24,33 +37,7 @@ int		ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_perror(char *str)
-{
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-}
-
-int		isdigit_arg(char **argv)
-{
-	int		i;
-	int		a;
-
-	i = 1;
-	while (argv[i] != NULL)
-	{
-		a = 0;
-		while (argv[i][a] != '\0')
-		{
-			if (argv[i][a] < 48 || argv[i][a] > 57)
-				return (0);
-			a++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int		ft_atoi(char *str)
+int	ft_atoi(char *str)
 {
 	int		res;
 	int		i;
@@ -75,12 +62,4 @@ int		ft_atoi(char *str)
 		i++;
 	}
 	return (a * res);
-}
-
-long	chrono(void)
-{
-	struct timeval		time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_usec / (long)1000) + (time.tv_sec * (long)1000));
 }
