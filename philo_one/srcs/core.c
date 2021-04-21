@@ -46,7 +46,6 @@ static void	sleeping(t_pool *pool)
 	ft_sleep(pool->philo->time_to_sleep);
 }
 
-// up
 void	*ft_core(void *arg)
 {
 	t_pool		*pool;

@@ -64,8 +64,8 @@ t_init	*ft_init_init(int *val, t_init *init)
 	init->philo = malloc(sizeof(pthread_t) * val[0]);
 	if (!init->philo)
 		return (NULL);
-	init->twin = malloc(sizeof(pthread_t) * val[0]);
-	if (!init->twin)
+	init->add = malloc(sizeof(pthread_t) * val[0]);
+	if (!init->add)
 		return (NULL);
 	init->guard = malloc(sizeof(pthread_mutex_t) * 10);
 	if (!init->guard)
@@ -96,7 +96,7 @@ int	ft_destruct(t_init *init, int *val)
 		pthread_mutex_destroy(&init->forks[b]);
 	free(val);
 	free(init->philo);
-	free(init->twin);
+	free(init->add);
 	free(init->guard);
 	free(init->forks);
 	free(init);
