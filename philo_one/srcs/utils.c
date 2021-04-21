@@ -7,22 +7,20 @@ void	ft_print_error(char *str)
 	write(2, "\n", 1);
 }
 
-void	ft_print_time(t_shrmem *stat, long i, char *str)
+// pre up
+void	ft_print_time(t_pool *pool, char *str)
 {
-	long			ms1;
+	long			ms;
 
-	pthread_mutex_lock(&stat->guard[3]);
-	if (g_the_end == 1)
-		return ;
-	ms1 = ft_time();
-	printf("%ldms %d %s\n", ms1 - stat->time, stat->philo->id, str);
-	if (i != 0)
+	pthread_mutex_lock(&pool->guard[3]);
+	ms = ft_time();
+	printf("%ldms %d %s\n", ms - pool->time, pool->philo->id, str);
+	if (ft_strlen(str) == 4)
 	{
-		g_the_end = 1;
-		pthread_mutex_unlock(&stat->guard[0]);
+		pthread_mutex_unlock(&pool->guard[0]);
 		return ;
 	}
-	pthread_mutex_unlock(&stat->guard[3]);
+	pthread_mutex_unlock(&pool->guard[3]);
 }
 
 // up

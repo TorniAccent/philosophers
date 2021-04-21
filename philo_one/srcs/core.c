@@ -16,60 +16,44 @@ static void	ft_sleep(long i)
 	}
 }
 
-static void	take_forks(t_shrmem *stat)
+static void	take_forks(t_pool *pool)
 {
-	pthread_mutex_lock(&stat->forks[stat->philo->left]);
-	ft_print_time(stat, 0, "has taken a fork");
-	if (g_the_end == 1)
-		return ;
-	pthread_mutex_lock(&stat->forks[stat->philo->right]);
-	ft_print_time(stat, 0, "has taken a fork");
-	if (g_the_end == 1)
-		return ;
+	pthread_mutex_lock(&pool->forks[pool->philo->left]);
+	ft_print_time(pool, "has taken a fork");
+	pthread_mutex_lock(&pool->forks[pool->philo->right]);
+	ft_print_time(pool, "has taken a fork");
 }
 
-static void	eating(t_shrmem *stat)
+static void	eating(t_pool *pool)
 {
-	pthread_mutex_lock(&stat->philo->guard);
-	ft_print_time(stat, 0, "is eating");
-	if (g_the_end == 1)
-		return ;
-	ft_sleep(stat->philo->eat * 1000);
-	stat->philo->cicles--;
-	pthread_mutex_unlock(&stat->philo->guard);
-	pthread_mutex_unlock(&stat->forks[stat->philo->right]);
-	pthread_mutex_unlock(&stat->forks[stat->philo->left]);
+	pthread_mutex_lock(&pool->philo->guard);
+	ft_print_time(pool, "is eating");
+	ft_sleep(pool->philo->time_to_eat * 1000);
+	pool->philo->cycles--;
+	pthread_mutex_unlock(&pool->philo->guard);
+	pthread_mutex_unlock(&pool->forks[pool->philo->right]);
+	pthread_mutex_unlock(&pool->forks[pool->philo->left]);
 }
 
-static void	sleeping(t_shrmem *stat)
+static void	sleeping(t_pool *pool)
 {
-	ft_print_time(stat, 0, "is sleeping");
-	if (g_the_end == 1)
-		return ;
-	ft_sleep(stat->philo->sleep * 1000);
+	ft_print_time(pool, "is sleeping");
+	ft_sleep(pool->philo->time_to_sleep * 1000);
 }
 
 void	*ft_core(void *arg)
 {
-	t_shrmem		*stat;
+	t_pool		*pool;
 
-	stat = arg;
-	stat->philo->start = ft_time();
-	while (stat->philo->cicles != 0)
+	pool = arg;
+	pool->philo->start = ft_time();
+	while (pool->philo->cycles != 0)
 	{
-		take_forks(stat);
-		if (g_the_end == 1)
-			return (NULL);
-		stat->philo->start = ft_time();
-		eating(stat);
-		if (g_the_end == 1)
-			return (NULL);
-		sleeping(stat);
-		if (g_the_end == 1)
-			return (NULL);
-		ft_print_time(stat, 0, "is thinking");
-		if (g_the_end == 1)
-			return (NULL);
+		take_forks(pool);
+		pool->philo->start = ft_time();
+		eating(pool);
+		sleeping(pool);
+		ft_print_time(pool, "is thinking");
 	}
 	return (NULL);
 }
