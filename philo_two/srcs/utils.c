@@ -18,15 +18,15 @@ void	ft_print_time(t_pool *pool, char *str)
 {
 	long		ms;
 
-	pthread_mutex_lock(pool->philo_lock);
+	sem_wait(pool->philo_lock);
 	ms = ft_time();
 	printf("%ldms %d %s\n", ms - pool->time, pool->philo->id + 1, str);
 	if (ft_strlen(str) == 4)
 	{
-		pthread_mutex_unlock(pool->main_lock);
+		sem_post(pool->main_lock);
 		return ;
 	}
-	pthread_mutex_unlock(pool->philo_lock);
+	sem_post(pool->philo_lock);
 }
 
 // ok

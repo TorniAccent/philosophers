@@ -7,6 +7,14 @@
 # include <string.h>
 # include <sys/time.h>
 # include <errno.h>
+# include <semaphore.h>
+# include <fcntl.h>
+
+# define THINKING 1
+# define EATING 2
+# define SLEEPING 3
+# define TAKING_FORK 4
+# define DEAD 5
 
 typedef struct s_ph
 {
@@ -15,28 +23,26 @@ typedef struct s_ph
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				cycles;
-	int				left;
-	int				right;
 	long			start;
-	pthread_mutex_t	guard;
+	sem_t			*guard;
 }					t_ph;
 
 typedef struct s_pool
 {
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*philo_lock;
-	pthread_mutex_t	*twin_lock;
-	pthread_mutex_t	*main_lock;
+	sem_t			*forks;
+	sem_t			*philo_lock;
+	sem_t			*twin_lock;
+	sem_t			*main_lock;
 	long			time;
 	t_ph			*philo;
 }					t_pool;
 
 typedef struct s_init
 {
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	philo_lock;
-	pthread_mutex_t	twin_lock;
-	pthread_mutex_t	main_lock;
+	sem_t			*forks;
+	sem_t			*philo_lock;
+	sem_t			*twin_lock;
+	sem_t			*main_lock;
 	pthread_t		*philo;
 	pthread_t		*twin;
 }					t_init;

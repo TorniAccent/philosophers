@@ -1,6 +1,6 @@
 #include "two.h"
 
-// ??
+// ok
 static void	*death(void *arg)
 {
 	t_pool		*pool;
@@ -13,8 +13,8 @@ static void	*death(void *arg)
 		ms = ft_time() - pool->philo->start;
 		if (ms >= pool->philo->time_to_die && pool->philo->cycles != 0)
 		{
-			pthread_mutex_lock(pool->twin_lock);
-			pthread_mutex_lock(&pool->philo->guard);
+//			sem_wait(pool->twin_lock);
+			sem_wait(pool->philo->guard);
 			ft_print_time(pool, "died");
 			return (NULL);
 		}
@@ -62,23 +62,22 @@ static int	even_odd_launch(int *val, t_pool *pool, t_init *init, int argc)
 	return (0);
 }
 
-// ok
 int	ft_threading(t_init *init, int argc, int *val)
 {
 	t_pool		*pool;
 	int			id;
 
-	pthread_mutex_lock(&init->main_lock);
+	sem_wait(init->main_lock);
 	pool = ft_init_pool(val[0], init);
 	if (!pool)
 		return (-1);
 	if (even_odd_launch(val, pool, init, argc) == -1)
 		return (-1);
-	pthread_mutex_lock(&init->main_lock);
+	sem_wait(init->main_lock);
 	id = -1;
 	while (++id < val[0])
 	{
-		pthread_mutex_destroy(&pool[id].philo->guard);
+//		pthread_mutex_destroy(&pool[id].philo->guard);
 		free(pool[id].philo);
 	}
 	free(pool);

@@ -21,22 +21,24 @@ static void	ft_sleep(int ms)
 // ok
 static void	take_forks(t_pool *pool)
 {
-	pthread_mutex_lock(&pool->forks[pool->philo->left]);
+	sem_wait(pool->twin_lock);
+	sem_wait(pool->forks);
 	ft_print_time(pool, "has taken a fork");
-	pthread_mutex_lock(&pool->forks[pool->philo->right]);
+	sem_wait(pool->forks);
 	ft_print_time(pool, "has taken a fork");
+	sem_post(pool->twin_lock);
 }
 
 // ok
 static void	eating(t_pool *pool)
 {
-	pthread_mutex_lock(&pool->philo->guard);
+	sem_wait(pool->philo->guard);
 	ft_print_time(pool, "is eating");
 	ft_sleep(pool->philo->time_to_eat);
 	pool->philo->cycles--;
-	pthread_mutex_unlock(&pool->philo->guard);
-	pthread_mutex_unlock(&pool->forks[pool->philo->right]);
-	pthread_mutex_unlock(&pool->forks[pool->philo->left]);
+	sem_post(pool->philo->guard);
+	sem_post(pool->forks);
+	sem_post(pool->forks);
 }
 
 // ok

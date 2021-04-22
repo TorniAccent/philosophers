@@ -9,7 +9,6 @@ long	ft_time(void)
 	return ((time.tv_usec / 1000) + (time.tv_sec * 1000));
 }
 
-// ok
 int	ft_init_philo(t_pool *pool, int *val, int argc, int id)
 {
 	pool->time = ft_time();
@@ -19,15 +18,10 @@ int	ft_init_philo(t_pool *pool, int *val, int argc, int id)
 	pool->philo->time_to_die = val[1];
 	pool->philo->time_to_eat = val[2];
 	pool->philo->time_to_sleep = val[3];
-	pool->philo->left = id;
-	pool->philo->right = id + 1;
-	if (pthread_mutex_init(&pool->philo->guard, NULL))
+	if ((pool->philo->guard = sem_open("/mm4", O_CREAT, 0644, 1)) == SEM_FAILED)
 		return (-1);
-	if (id + 1 == val[0])
-	{
-		if (val[0] != 1)
-			pool->philo->right = 0;
-	}
+	if (sem_unlink("/mm4") == -1)
+		return (-1);
 	pool->philo->cycles = -1;
 	if (argc == 6)
 		pool->philo->cycles = val[4];
@@ -49,9 +43,9 @@ t_pool	*ft_init_pool(int number, t_init *init)
 	{
 		pool[i].time = ms;
 		pool[i].forks = init->forks;
-		pool[i].philo_lock = &init->philo_lock;
-		pool[i].twin_lock = &init->twin_lock;
-		pool[i].main_lock = &init->main_lock;
+		pool[i].philo_lock = init->philo_lock;
+		pool[i].twin_lock = init->twin_lock;
+		pool[i].main_lock = init->main_lock;
 	}
 	return (pool);
 }
@@ -59,21 +53,21 @@ t_pool	*ft_init_pool(int number, t_init *init)
 // ok
 t_init	*ft_init_init(int nb, t_init *init)
 {
-	int		fid;
-
-	if (!ft_malloc_assign((void **)&init->forks, sizeof(pthread_mutex_t) * nb))
+	if ((init->forks = sem_open("/mfs", O_CREAT, 0644, nb)) == SEM_FAILED)
 		return (NULL);
-	fid = -1;
-	while (++fid < nb)
-		if (pthread_mutex_init(&init->forks[fid], NULL))
-			return (NULL);
-	if (pthread_mutex_init(&init->philo_lock, NULL))
+	if ((init->philo_lock = sem_open("/mpl", O_CREAT, 0644, 1)) == SEM_FAILED)
 		return (NULL);
-	if (pthread_mutex_init(&init->twin_lock, NULL))
+	if ((init->twin_lock = sem_open("/mtl", O_CREAT, 0644, 1)) == SEM_FAILED)
 		return (NULL);
-//	if (!ft_malloc_assign((void **)&init->main_lock, sizeof(pthread_mutex_t)))
-//		return (NULL);
-	if (pthread_mutex_init(&init->main_lock, NULL))
+	if ((init->main_lock = sem_open("/mml", O_CREAT, 0644, 1)) == SEM_FAILED)
+		return (NULL);
+	if (sem_unlink("/mfs") == -1)
+		return (NULL);
+	if (sem_unlink("/mpl") == -1)
+		return (NULL);
+	if (sem_unlink("/mtl") == -1)
+		return (NULL);
+	if (sem_unlink("/mml") == -1)
 		return (NULL);
 	if (!ft_malloc_assign((void **)&init->philo, sizeof(pthread_t) * nb))
 		return (NULL);
@@ -85,14 +79,8 @@ t_init	*ft_init_init(int nb, t_init *init)
 // ok
 int	ft_destruct(t_init *init, int *val)
 {
-	int		b;
-
 	if (init)
 	{
-		b = -1;
-		while (++b < val[0])
-			pthread_mutex_destroy(&init->forks[b]);
-		free(init->forks);
 		free(init->philo);
 		free(init->twin);
 	}

@@ -21,7 +21,7 @@ objs:
 	mkdir objs
 
 objs/%.o: srcs/%.c
-		$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(OBJS_D)
 	$(CC) $(FLAGS) $(OBJS_D) $(INCLUDES) -o $(NAME)
