@@ -1,6 +1,6 @@
 #include "one.h"
 
-// up
+// ok
 static int	is_number(char **argv)
 {
 	int		i;
@@ -17,7 +17,7 @@ static int	is_number(char **argv)
 	return (1);
 }
 
-// up
+// ok
 int	*ft_parse_args(int argc, char **argv)
 {
 	int		*val;
@@ -27,13 +27,13 @@ int	*ft_parse_args(int argc, char **argv)
 	if (!is_number(argv))
 	{
 		ft_print_error("Error: invalid value");
-		return (NULL);
+		return (0);
 	}
 	val = malloc(sizeof(int) * (argc - 1));
 	if (!val)
 		ft_print_error("Error: malloc error");
 	if (!val)
-		return (NULL);
+		return (0);
 	while (++i != (argc - 1))
 	{
 		val[i] = ft_atoi(argv[i + 1]);

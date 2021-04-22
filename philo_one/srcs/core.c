@@ -1,6 +1,6 @@
 #include "one.h"
 
-// up
+// ok
 static void	ft_sleep(int ms)
 {
 	struct timeval	start;
@@ -18,7 +18,7 @@ static void	ft_sleep(int ms)
 	}
 }
 
-// up
+// ok
 static void	take_forks(t_pool *pool)
 {
 	pthread_mutex_lock(&pool->forks[pool->philo->left]);
@@ -27,7 +27,7 @@ static void	take_forks(t_pool *pool)
 	ft_print_time(pool, "has taken a fork");
 }
 
-// up
+// ok
 static void	eating(t_pool *pool)
 {
 	pthread_mutex_lock(&pool->philo->guard);
@@ -39,17 +39,17 @@ static void	eating(t_pool *pool)
 	pthread_mutex_unlock(&pool->forks[pool->philo->left]);
 }
 
-// up
+// ok
 static void	sleeping(t_pool *pool)
 {
 	ft_print_time(pool, "is sleeping");
 	ft_sleep(pool->philo->time_to_sleep);
 }
 
-// up
+// ok
 void	*ft_core(void *arg)
 {
-	t_pool		*pool;
+	t_pool	*pool;
 
 	pool = arg;
 	pool->philo->start = ft_time();

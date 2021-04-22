@@ -1,29 +1,35 @@
 #include "one.h"
 
-// up
+// ok
+void	*ft_malloc_assign(void **assignment_operand, size_t size)
+{
+	return (*assignment_operand = malloc(size));
+}
+
+// ok
 void	ft_print_error(char *str)
 {
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
 }
 
-// pre up
+// ok
 void	ft_print_time(t_pool *pool, char *str)
 {
-	long			ms;
+	long		ms;
 
-	pthread_mutex_lock(&pool->guard[3]);
+	pthread_mutex_lock(pool->philo_lock);
 	ms = ft_time();
-	printf("%ldms %d %s\n", ms - pool->time, pool->philo->id, str);
+	printf("%ldms %d %s\n", ms - pool->time, pool->philo->id + 1, str);
 	if (ft_strlen(str) == 4)
 	{
-		pthread_mutex_unlock(&pool->guard[0]);
+		pthread_mutex_unlock(pool->main_lock);
 		return ;
 	}
-	pthread_mutex_unlock(&pool->guard[3]);
+	pthread_mutex_unlock(pool->philo_lock);
 }
 
-// up
+// ok
 int	ft_strlen(char *str)
 {
 	int		i;
@@ -36,7 +42,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-// up
+// ok
 int	ft_atoi(char *str)
 {
 	int		res;
