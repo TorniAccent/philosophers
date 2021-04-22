@@ -9,6 +9,8 @@
 # include <errno.h>
 # include <semaphore.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <sys/wait.h>
 
 typedef struct s_ph
 {
@@ -37,8 +39,9 @@ typedef struct s_init
 	sem_t			*philo_lock;
 	sem_t			*twin_lock;
 	sem_t			*main_lock;
-	pthread_t		*philo;
+	pid_t			*philo;
 	pthread_t		*twin;
+	pthread_t		*kamikadze;
 }					t_init;
 
 void			*ft_core(void *arg);

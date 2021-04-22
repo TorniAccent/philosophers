@@ -22,17 +22,28 @@ static void	*death(void *arg)
 	return (NULL);
 }
 
+static void	*die(void *arg)
+{
+	t_pool		*pool;
+
+	pool = arg;
+	sem_wait(pool->main_lock);
+	sem_post(pool->main_lock);
+	exit(1);
+}
+
 // ok
 static int	create_philo(t_pool *pool, int id, t_init *init)
 {
 	pool->philo->start = ft_time();
-	if (pthread_create(&init->philo[id], NULL, ft_core, &pool[id]))
-		return (-1);
-	if (pthread_detach(init->philo[id]))
-		return (-1);
+	pool[id].time = pool[id].philo->start;
 	if (pthread_create(&init->twin[id], NULL, death, &pool[id]))
 		return (-1);
 	if (pthread_detach(init->twin[id]))
+		return (-1);
+	if (pthread_create(&init->kamikadze[id], NULL, die, &pool[id]))
+		return (-1);
+	if (pthread_detach(init->kamikadze[id]))
 		return (-1);
 	return (0);
 }
@@ -42,22 +53,14 @@ static int	even_odd_launch(int *val, t_pool *pool, t_init *init, int argc)
 {
 	int		id;
 
-	id = 0;
-	while (id < val[0])
+	id = -1;
+	while (++id < val[0])
 	{
 		if (ft_init_philo(&pool[id], val, argc, id) == -1)
 			return (-1);
-		create_philo(pool, id, init);
-		id += 2;
-	}
-	usleep(100);
-	id = 1;
-	while (id < val[0])
-	{
-		if (ft_init_philo(&pool[id], val, argc, id) == -1)
+		if (create_philo(pool, id, init) == -1)
 			return (-1);
-		create_philo(pool, id, init);
-		id += 2;
+		ft_core(pool);
 	}
 	return (0);
 }
@@ -74,12 +77,16 @@ int	ft_threading(t_init *init, int argc, int *val)
 	if (even_odd_launch(val, pool, init, argc) == -1)
 		return (-1);
 	sem_wait(init->main_lock);
+//	id = -1;
+//	while (++id < val[0])
+//	{
+////		pthread_mutex_destroy(&pool[id].philo->guard);
+//		free(pool[id].philo);
+//	}
 	id = -1;
 	while (++id < val[0])
-	{
-//		pthread_mutex_destroy(&pool[id].philo->guard);
-		free(pool[id].philo);
-	}
+		if (waitpid(init->philo[id], NULL, WUNTRACED) == -1)
+			exit(1);
 	free(pool);
 	return (0);
 }

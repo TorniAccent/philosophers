@@ -69,9 +69,15 @@ t_init	*ft_init_init(int nb, t_init *init)
 		return (NULL);
 	if (sem_unlink("/mml") == -1)
 		return (NULL);
-	if (!ft_malloc_assign((void **)&init->philo, sizeof(pthread_t) * nb))
+	if (!ft_malloc_assign((void **)&init->philo, sizeof(pid_t) * nb))
 		return (NULL);
+//	if (!ft_malloc_assign((void **)&init->twin, sizeof(pid_t) * number))
+//		return (NULL);
+//	if (!ft_malloc_assign((void **)&init->philo, sizeof(pthread_t) * nb))
+//		return (NULL);
 	if (!ft_malloc_assign((void **)&init->twin, sizeof(pthread_t) * nb))
+		return (NULL);
+	if (!ft_malloc_assign((void **)&init->kamikadze, sizeof(pthread_t) * nb))
 		return (NULL);
 	return (init);
 }
@@ -83,6 +89,7 @@ int	ft_destruct(t_init *init, int *val)
 	{
 		free(init->philo);
 		free(init->twin);
+		free(init->kamikadze);
 	}
 	free(val);
 	return (-1);
