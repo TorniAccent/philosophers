@@ -1,5 +1,5 @@
-#ifndef ONE_H
-# define ONE_H
+#ifndef TWO_H
+# define TWO_H
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>

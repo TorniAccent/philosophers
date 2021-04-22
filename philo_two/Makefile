@@ -1,4 +1,4 @@
-NAME	= philo_one
+NAME	= philo_two
 
 SRCS	= srcs/core.c srcs/threading.c srcs/init.c srcs/utils.c srcs/parser.c srcs/main.c
 

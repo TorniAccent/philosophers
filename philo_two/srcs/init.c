@@ -1,4 +1,4 @@
-#include "one.h"
+#include "two.h"
 
 // ok
 long	ft_time(void)
