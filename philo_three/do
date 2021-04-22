@@ -1,0 +1,1 @@
+make fclean; make; ./philo_three 4 400 200 200; make fclean
