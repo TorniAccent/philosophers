@@ -10,12 +10,6 @@
 # include <semaphore.h>
 # include <fcntl.h>
 
-# define THINKING 1
-# define EATING 2
-# define SLEEPING 3
-# define TAKING_FORK 4
-# define DEAD 5
-
 typedef struct s_ph
 {
 	int				id;
