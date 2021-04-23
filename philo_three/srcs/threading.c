@@ -47,15 +47,10 @@ static int	create_philo(t_pool *pool, int id, t_init *init)
 	return (0);
 }
 
-int	ft_threading(t_init *init, int argc, int *val)
+static int	even_odd_launch(int *val, t_pool *pool, t_init *init, int argc)
 {
-	t_pool		*pool;
-	int			id;
+	int		id;
 
-	sem_wait(init->main_lock);
-	pool = ft_init_pool(val[0], init);
-	if (!pool)
-		return (-1);
 	id = -1;
 	while (++id < val[0])
 	{
@@ -73,6 +68,19 @@ int	ft_threading(t_init *init, int argc, int *val)
 	while (++id < val[0])
 		if (waitpid(init->philo[id], NULL, WUNTRACED) == -1)
 			exit(1);
+	return (0);
+}
+
+int	ft_threading(t_init *init, int argc, int *val)
+{
+	t_pool		*pool;
+
+	sem_wait(init->main_lock);
+	pool = ft_init_pool(val[0], init);
+	if (!pool)
+		return (-1);
+	if (even_odd_launch(val, pool, init, argc))
+		return (-1);
 	sem_wait(init->main_lock);
 	free(pool);
 	return (0);

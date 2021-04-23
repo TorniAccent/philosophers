@@ -64,5 +64,4 @@ void	*ft_core(void *arg)
 		ft_print_time(pool, "is thinking");
 	}
 	exit(1);
-//	return (NULL);
 }

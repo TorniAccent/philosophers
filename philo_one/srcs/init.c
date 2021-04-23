@@ -1,4 +1,4 @@
-#include "one.h"
+#include "../includes/one.h"
 
 // ok
 long	ft_time(void)
@@ -71,8 +71,6 @@ t_init	*ft_init_init(int nb, t_init *init)
 		return (NULL);
 	if (pthread_mutex_init(&init->twin_lock, NULL))
 		return (NULL);
-//	if (!ft_malloc_assign((void **)&init->main_lock, sizeof(pthread_mutex_t)))
-//		return (NULL);
 	if (pthread_mutex_init(&init->main_lock, NULL))
 		return (NULL);
 	if (!ft_malloc_assign((void **)&init->philo, sizeof(pthread_t) * nb))

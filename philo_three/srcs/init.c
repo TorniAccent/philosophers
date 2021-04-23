@@ -18,7 +18,8 @@ int	ft_init_philo(t_pool *pool, int *val, int argc, int id)
 	pool->philo->time_to_die = val[1];
 	pool->philo->time_to_eat = val[2];
 	pool->philo->time_to_sleep = val[3];
-	if ((pool->philo->guard = sem_open("/mm4", O_CREAT, 0644, 1)) == SEM_FAILED)
+	pool->philo->guard = sem_open("/mm4", O_CREAT, 0644, 1);
+	if (pool->philo->guard == SEM_FAILED)
 		return (-1);
 	if (sem_unlink("/mm4") == -1)
 		return (-1);
@@ -53,28 +54,23 @@ t_pool	*ft_init_pool(int number, t_init *init)
 // ok
 t_init	*ft_init_init(int nb, t_init *init)
 {
-	if ((init->forks = sem_open("/mfs", O_CREAT, 0644, nb)) == SEM_FAILED)
+	init->forks = sem_open("/mfs", O_CREAT, 0644, nb);
+	if (init->forks == SEM_FAILED)
 		return (NULL);
-	if ((init->philo_lock = sem_open("/mpl", O_CREAT, 0644, 1)) == SEM_FAILED)
+	init->philo_lock = sem_open("/mpl", O_CREAT, 0644, 1);
+	if (init->philo_lock == SEM_FAILED)
 		return (NULL);
-	if ((init->twin_lock = sem_open("/mtl", O_CREAT, 0644, 1)) == SEM_FAILED)
+	init->twin_lock = sem_open("/mtl", O_CREAT, 0644, 1);
+	if (init->twin_lock == SEM_FAILED)
 		return (NULL);
-	if ((init->main_lock = sem_open("/mml", O_CREAT, 0644, 1)) == SEM_FAILED)
+	init->main_lock = sem_open("/mml", O_CREAT, 0644, 1);
+	if (init->main_lock == SEM_FAILED)
 		return (NULL);
-	if (sem_unlink("/mfs") == -1)
-		return (NULL);
-	if (sem_unlink("/mpl") == -1)
-		return (NULL);
-	if (sem_unlink("/mtl") == -1)
-		return (NULL);
-	if (sem_unlink("/mml") == -1)
+	if (sem_unlink("/mfs") == -1 || sem_unlink("/mpl") == -1
+		|| sem_unlink("/mtl") == -1 || sem_unlink("/mml") == -1)
 		return (NULL);
 	if (!ft_malloc_assign((void **)&init->philo, sizeof(pid_t) * nb))
 		return (NULL);
-//	if (!ft_malloc_assign((void **)&init->twin, sizeof(pid_t) * number))
-//		return (NULL);
-//	if (!ft_malloc_assign((void **)&init->philo, sizeof(pthread_t) * nb))
-//		return (NULL);
 	if (!ft_malloc_assign((void **)&init->twin, sizeof(pthread_t) * nb))
 		return (NULL);
 	if (!ft_malloc_assign((void **)&init->kamikadze, sizeof(pthread_t) * nb))

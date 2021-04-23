@@ -1,4 +1,4 @@
-#include "one.h"
+#include "../includes/one.h"
 
 // ??
 static void	*death(void *arg)

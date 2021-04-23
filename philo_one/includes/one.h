@@ -51,7 +51,7 @@ t_init			*ft_init_init(int nb, t_init *init);
 t_pool			*ft_init_pool(int number, t_init *init);
 int				ft_destruct(t_init *init, int *val);
 
-void 			*ft_malloc_assign(void **assignment_operand, size_t size);
+void			*ft_malloc_assign(void **assignment_operand, size_t size);
 void			ft_print_error(char *str);
 void			ft_print_time(t_pool *stat, char *str);
 int				ft_strlen(char *str);

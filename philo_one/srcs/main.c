@@ -1,4 +1,4 @@
-#include "one.h"
+#include "../includes/one.h"
 
 // ok
 int	main(int argc, char **argv)

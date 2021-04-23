@@ -13,7 +13,6 @@ static void	*death(void *arg)
 		ms = ft_time() - pool->philo->start;
 		if (ms >= pool->philo->time_to_die && pool->philo->cycles != 0)
 		{
-//			sem_wait(pool->twin_lock);
 			sem_wait(pool->philo->guard);
 			ft_print_time(pool, "died");
 			return (NULL);
@@ -76,10 +75,7 @@ int	ft_threading(t_init *init, int argc, int *val)
 	sem_wait(init->main_lock);
 	id = -1;
 	while (++id < val[0])
-	{
-//		pthread_mutex_destroy(&pool[id].philo->guard);
 		free(pool[id].philo);
-	}
 	free(pool);
 	return (0);
 }
