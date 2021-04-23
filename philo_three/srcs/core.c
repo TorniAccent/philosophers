@@ -1,4 +1,4 @@
-#include "three.h"
+#include "../includes/three.h"
 
 // ok
 static void	ft_sleep(int ms)
@@ -63,5 +63,6 @@ void	*ft_core(void *arg)
 		sleeping(pool);
 		ft_print_time(pool, "is thinking");
 	}
-	return (NULL);
+	exit(1);
+//	return (NULL);
 }

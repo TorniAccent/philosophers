@@ -1,4 +1,4 @@
-#include "three.h"
+#include "../includes/three.h"
 
 // ok
 int	main(int argc, char **argv)

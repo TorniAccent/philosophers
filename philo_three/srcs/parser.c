@@ -1,4 +1,4 @@
-#include "three.h"
+#include "../includes/three.h"
 
 // ok
 static int	is_number(char **argv)

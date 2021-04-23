@@ -1,4 +1,4 @@
-#include "two.h"
+#include "../includes/two.h"
 
 // ok
 long	ft_time(void)
